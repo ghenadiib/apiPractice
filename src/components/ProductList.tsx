@@ -8,6 +8,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import AddProduct from "./AddProduct";
+import DeleteProduct from "./DeleteProduct";
+import EditProduct from "./EditProduct";
+
 
 export const URL = "https://dummyjson.com/products";
 
@@ -48,13 +51,15 @@ const ProductList = () => {
                   {product.id}
                 </TableCell>
                 <TableCell align="right">{product.description}</TableCell>
-                <TableCell align="right">{product.title}</TableCell>
+                <TableCell  align="right">{product.title}</TableCell>
+                <TableCell className="flex" align="right"><DeleteProduct /> <EditProduct /></TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
       <AddProduct onProductAdded={addNewProduct}/>
+      
     </>
   );
 };

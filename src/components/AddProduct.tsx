@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -34,6 +34,14 @@ const AddProduct = ({onProductAdded}) => {
     setTitle(event.target.value);
     console.log(event.target.value);
   };
+
+  // const [id, setId] = useState(0);
+
+  // useEffect(() => {
+  //   axios.get(URL).then((res) => {
+  //     setId(res.data.id++);
+  //   });
+  // }, []);
 
   const handleSubmit = async (event: Event) => {
     event.preventDefault();
