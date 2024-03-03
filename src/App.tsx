@@ -5,9 +5,7 @@ function App() {
 
   return (
     <div>
-      
-       <button>Hello world</button>
-       <ProductList/>
+             <ProductList/>
     </div>
 
   )
