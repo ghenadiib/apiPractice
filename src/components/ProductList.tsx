@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,6 +14,8 @@ import EditProduct from "./EditProduct";
 
 export const URL = "https://dummyjson.com/products";
 
+export const ProductsContext = createContext();
+
 const ProductList = () => {
   const [products, setProducts] = useState([]);
 
@@ -23,15 +25,20 @@ const ProductList = () => {
     });
   }, []);
 
+  console.log(products);
+
   const addNewProduct = (newProduct) =>{
     setProducts([...products, newProduct])
   };
 
+
+
+
+
   
-  console.log(products);
 
   return (
-    <>
+    <ProductsContext.Provider value = {{products, setProducts}}>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -52,15 +59,19 @@ const ProductList = () => {
                 </TableCell>
                 <TableCell align="right">{product.description}</TableCell>
                 <TableCell  align="right">{product.title}</TableCell>
-                <TableCell className="flex" align="right"><DeleteProduct /> <EditProduct /></TableCell>
+                <TableCell align="right">
+                <DeleteProduct productId={product.id}/> 
+                <EditProduct productId={product.id}/>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
       <AddProduct onProductAdded={addNewProduct}/>
-      
-    </>
+      </ProductsContext.Provider>
+    
   );
 };
+
 export default ProductList;

@@ -35,13 +35,6 @@ const AddProduct = ({onProductAdded}) => {
     console.log(event.target.value);
   };
 
-  // const [id, setId] = useState(0);
-
-  // useEffect(() => {
-  //   axios.get(URL).then((res) => {
-  //     setId(res.data.id++);
-  //   });
-  // }, []);
 
   const handleSubmit = async (event: Event) => {
     event.preventDefault();
