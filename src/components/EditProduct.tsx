@@ -51,25 +51,29 @@ export const UpdateProduct = ({productId}) => {
   });
 
   const handleUpdate = async (id) => {
-    try{
-      await axios.put(`${URL}/${id}`, {
-        title : title,
-        description : description
-      })
-      setProducts(prevProducts => 
-        {
-           
-          const newProducts = [...prevProducts];
-          newProducts[id-1].title = title;
-          newProducts[id-1].description = description;
-          return newProducts
+    try {
+        const updatedTitle = title.trim() === "" ? titles[productId - 1] : title;
+        const updatedDescription =
+          description.trim() === ""
+            ? descriptions[productId - 1]
+            : description;
+    
+        await axios.put(`${URL}/${id}`, {
+          title: updatedTitle,
+          description: updatedDescription,
         });
-      handleClose();
-    }
-    catch (error){
-      console.error(error)
-    }
-  }
+    
+        setProducts((prevProducts) => {
+          const newProducts = [...prevProducts];
+          newProducts[id - 1].title = updatedTitle;
+          newProducts[id - 1].description = updatedDescription;
+          return newProducts;
+        });
+        handleClose();
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
   return(
     <>
