@@ -27,16 +27,6 @@ const ProductList = () => {
 
   console.log(products);
 
-  const addNewProduct = (newProduct) =>{
-    setProducts([...products, newProduct])
-  };
-
-
-
-
-
-  
-
   return (
     <ProductsContext.Provider value = {{products, setProducts}}>
       <TableContainer component={Paper}>
@@ -68,7 +58,7 @@ const ProductList = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <AddProduct onProductAdded={addNewProduct}/>
+      <AddProduct/>
       </ProductsContext.Provider>
     
   );

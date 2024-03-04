@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -8,10 +8,15 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
-import { URL } from "./ProductList";
+import ProductList, { ProductsContext, URL } from "./ProductList";
 
 const AddProduct = ({onProductAdded}) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
+  const {products} = useContext(ProductsContext);
+
+  const {setProducts} = useContext(ProductsContext);
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,7 +49,7 @@ const AddProduct = ({onProductAdded}) => {
         description: description,
       });
       console.log(response.data);
-      onProductAdded(response.data)
+      setProducts([...products, response.data])
       handleClose();
     } catch (error) {
       console.error("Error sending email:", error);

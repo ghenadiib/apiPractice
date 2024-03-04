@@ -35,38 +35,20 @@ export const UpdateProduct = ({productId}) => {
 
 
   const {setProducts} = useContext(ProductsContext)
-  const products = useContext(ProductsContext)
-
-  const productList = [...products.products]
-
-  const titles = []
-  const descriptions = []
-
-  productList.forEach(product => {
-    titles.push(product.title)
-  });
-
-  productList.forEach(product => {
-    descriptions.push(product.description)
-  });
+  const {products} = useContext(ProductsContext)
 
   const handleUpdate = async (id) => {
     try {
-        const updatedTitle = title.trim() === "" ? titles[productId - 1] : title;
-        const updatedDescription =
-          description.trim() === ""
-            ? descriptions[productId - 1]
-            : description;
-    
+        
         await axios.put(`${URL}/${id}`, {
-          title: updatedTitle,
-          description: updatedDescription,
+          title: title,
+          description: description,
         });
     
         setProducts((prevProducts) => {
           const newProducts = [...prevProducts];
-          newProducts[id - 1].title = updatedTitle;
-          newProducts[id - 1].description = updatedDescription;
+          newProducts[id - 1].title = (title === "" ? newProducts[id-1].title : title) ; 
+          newProducts[id - 1].description = (description === "" ? newProducts[id-1].description : description) ; 
           return newProducts;
         });
         handleClose();
@@ -105,7 +87,7 @@ export const UpdateProduct = ({productId}) => {
           label="Title"
           fullWidth
           variant="standard"
-          defaultValue={titles[productId-1]}
+          defaultValue={products[productId-1]?.title}
         />{" "}
         <TextField
           onChange={handleDescriptionChange}
@@ -117,7 +99,7 @@ export const UpdateProduct = ({productId}) => {
           label="Description"
           fullWidth
           variant="standard"
-          defaultValue={descriptions[productId-1]}
+          defaultValue={products[productId-1]?.description}
         />{" "}
       </DialogContent>{" "}
       <DialogActions>
