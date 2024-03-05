@@ -1,9 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useState} from "react";
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { URL, ProductsContext } from './ProductList';
-import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -12,9 +11,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 
 
-const DeleteProduct = ({ productId }) => {
+const DeleteProduct = ({ productId } : { productId : number}) => {
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -23,14 +22,12 @@ const DeleteProduct = ({ productId }) => {
     setOpen(false);
   };
 
+  const { setProducts } = useContext<ProductContextType>(ProductsContext)
 
-  const {setProducts} = useContext(ProductsContext)
-  const products = useContext(ProductsContext)
-
-  const handleDelete = async (id) => {
+  const handleDelete = async (id : number) => {
     try{
       await axios.delete(`${URL}/${id}`);
-      setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
+      setProducts((prevProducts : Product[]) => prevProducts.filter(product => product.id !== id));
       console.log(`Deleted post with ID ${id}`);
     }catch (error) {
       console.error(error);

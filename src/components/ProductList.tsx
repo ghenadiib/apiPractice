@@ -11,16 +11,20 @@ import AddProduct from "./AddProduct";
 import DeleteProduct from "./DeleteProduct";
 import EditProduct from "./EditProduct";
 
-
 export const URL = "https://dummyjson.com/products";
 
-export const ProductsContext = createContext();
+const defaultValue: ProductContextType = {
+  products: [],
+  setProducts: () => {},
+};
+
+export const ProductsContext = createContext<ProductContextType>(defaultValue);
 
 const ProductList = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    axios.get(URL).then((res) => {
+    axios.get<{ products: Product[] }>(URL).then((res) => {
       setProducts(res.data.products);
     });
   }, []);
@@ -28,7 +32,7 @@ const ProductList = () => {
   console.log(products);
 
   return (
-    <ProductsContext.Provider value = {{products, setProducts}}>
+    <ProductsContext.Provider value={{ products, setProducts }}>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -50,7 +54,7 @@ const ProductList = () => {
                 <TableCell align="right">{product.description}</TableCell>
                 <TableCell  align="right">{product.title}</TableCell>
                 <TableCell align="right">
-                <DeleteProduct productId={product.id}/> 
+                <DeleteProduct productId ={product.id}/> 
                 <EditProduct productId={product.id}/>
                 </TableCell>
               </TableRow>

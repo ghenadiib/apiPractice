@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useContext } from "react";
+import { useState, useContext, ChangeEvent } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -8,14 +8,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
-import ProductList, { ProductsContext, URL } from "./ProductList";
+import { ProductsContext, URL } from "./ProductList";
 
-const AddProduct = ({onProductAdded}) => {
+const AddProduct = () => {
   const [open, setOpen] = useState(false);
 
-  const {products} = useContext(ProductsContext);
-
-  const {setProducts} = useContext(ProductsContext);
+  const { setProducts } = useContext<ProductContextType>(ProductsContext)
+  const { products }  = useContext<ProductContextType>(ProductsContext)
 
 
   const handleClickOpen = () => {
@@ -28,14 +27,14 @@ const AddProduct = ({onProductAdded}) => {
 
   const [description, setDescription] = useState("");
 
-  const handleDescriptionChange = (event) => {
+  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setDescription(event.target.value);
     console.log(event.target.value);
   };
 
   const [title, setTitle] = useState("");
 
-  const handleTitleChange = (event) => {
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     console.log(event.target.value);
   };
