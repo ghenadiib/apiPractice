@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import AddProduct from "./AddProduct";
 import DeleteProduct from "./DeleteProduct";
 import EditProduct from "./EditProduct";
+import SignIn from "./SignIn";
 
 export const URL = "https://dummyjson.com/products";
 
@@ -61,6 +62,7 @@ const ProductList = () => {
         </Table>
       </TableContainer>
       <AddProduct />
+      <SignIn />
     </ProductsContext.Provider>
   );
 };
