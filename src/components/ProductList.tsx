@@ -12,6 +12,7 @@ import DeleteProduct from "./DeleteProduct";
 import EditProduct from "./EditProduct";
 import SignIn from "./SignIn";
 import { IsSignedInType, ProductContextType, Product } from "../models/product";
+import { Alert } from "@mui/material";
 
 export const URL = "https://dummyjson.com/products";
 
@@ -76,7 +77,10 @@ const ProductList = () => {
           <AddProduct />{" "}
         </div>
       ) : (
+        <>
         <SignIn />
+        <Alert severity="error">Wrong credentials.</Alert>
+        </>
       )}
       </SignedInContext.Provider>
     </ProductsContext.Provider>
