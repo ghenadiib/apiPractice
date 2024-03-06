@@ -8,8 +8,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
+import { SignedInContext } from './ProductList';
+import { IsSignedInType } from '../models/product';
+import { useContext } from 'react';
 
 export default function SignIn() {
+
+  const {setIsSignedIn} = useContext<IsSignedInType>(SignedInContext)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -20,6 +25,7 @@ export default function SignIn() {
         password: data.get('password'),
       });
       console.log(response.data.token);
+      setIsSignedIn(true)
     } catch (error) {
       console.error("Wrong credentials:", error);
     }
@@ -78,3 +84,4 @@ export default function SignIn() {
     </>
   );
 }
+

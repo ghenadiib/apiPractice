@@ -9,6 +9,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import { ProductsContext, URL } from "./ProductList";
+import { ProductContextType } from "../models/product";
 
 const AddProduct = () => {
   const [open, setOpen] = useState(false);

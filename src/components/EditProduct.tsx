@@ -10,6 +10,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
+import { ProductContextType, Product } from "../models/product";
 
 export const UpdateProduct = ({ productId }: { productId: number }) => {
   const [open, setOpen] = useState<boolean>(false);
