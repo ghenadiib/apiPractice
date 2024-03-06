@@ -13,13 +13,12 @@ import { ProductsContext, URL } from "./ProductList";
 const AddProduct = () => {
   const [open, setOpen] = useState(false);
 
-  const { setProducts } = useContext<ProductContextType>(ProductsContext)
-  const { products }  = useContext<ProductContextType>(ProductsContext)
-
+  const { setProducts } = useContext<ProductContextType>(ProductsContext);
+  const { products } = useContext<ProductContextType>(ProductsContext);
 
   const handleClickOpen = () => {
     setOpen(true);
-  };  
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -39,7 +38,6 @@ const AddProduct = () => {
     console.log(event.target.value);
   };
 
-
   const handleSubmit = async (event: Event) => {
     event.preventDefault();
     try {
@@ -48,15 +46,12 @@ const AddProduct = () => {
         description: description,
       });
       console.log(response.data);
-      setProducts([...products, response.data])
+      setProducts([...products, response.data]);
       handleClose();
     } catch (error) {
       console.error("Error sending email:", error);
     }
-
-
   };
-
 
   return (
     <React.Fragment>

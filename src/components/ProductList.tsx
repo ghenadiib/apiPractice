@@ -13,12 +13,10 @@ import EditProduct from "./EditProduct";
 
 export const URL = "https://dummyjson.com/products";
 
-const defaultValue: ProductContextType = {
+export const ProductsContext = createContext<ProductContextType>({
   products: [],
   setProducts: () => {},
-};
-
-export const ProductsContext = createContext<ProductContextType>(defaultValue);
+});
 
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -52,19 +50,18 @@ const ProductList = () => {
                   {product.id}
                 </TableCell>
                 <TableCell align="right">{product.description}</TableCell>
-                <TableCell  align="right">{product.title}</TableCell>
+                <TableCell align="right">{product.title}</TableCell>
                 <TableCell align="right">
-                <DeleteProduct productId ={product.id}/> 
-                <EditProduct productId={product.id}/>
+                  <DeleteProduct productId={product.id} />
+                  <EditProduct productId={product.id} />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <AddProduct/>
-      </ProductsContext.Provider>
-    
+      <AddProduct />
+    </ProductsContext.Provider>
   );
 };
 
