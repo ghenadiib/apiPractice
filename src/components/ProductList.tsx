@@ -13,6 +13,7 @@ import EditProduct from "./EditProduct";
 import SignIn from "./SignIn";
 import { IsSignedInType, ProductContextType, Product } from "../models/product";
 import { Alert } from "@mui/material";
+import PaginationControlled from "./Pagination";
 
 export const URL = "https://dummyjson.com/products";
 
@@ -28,15 +29,16 @@ export const SignedInContext = createContext<IsSignedInType>({
 
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(true); // CHANGE TO FALSE TO MAKE THE SIGN IN APPEAR
 
   useEffect(() => {
     if (isSignedIn) {
-      axios.get<{ products: Product[] }>(URL).then((res) => {
+      axios.get<{ products: Product[] }>(`${URL}?limit=20`).then((res) => {
         setProducts(res.data.products);
       });
     }
   }, [isSignedIn]);
+
 
   console.log(products);
 
@@ -75,6 +77,9 @@ const ProductList = () => {
             </Table>
           </TableContainer>
           <AddProduct />{" "}
+          <div className="flex justify-center">
+          <PaginationControlled />
+          </div>
         </div>
       ) : (
         <>
