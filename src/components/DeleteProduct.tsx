@@ -8,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { Product, ProductContextType } from "../models/product";
 
 const DeleteProduct = ({ productId }: { productId: number }) => {
   const [open, setOpen] = useState<boolean>(false);
