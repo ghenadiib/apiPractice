@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useContext } from "react";
 import { ProductsContext, URL } from "./ProductList";
-import { useState, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -10,18 +10,27 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
-import { ProductContextType, Product } from "../models/product";
+import { ProductContextType } from "../models/product";
 
 export const UpdateProduct = ({ productId }: { productId: number }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const { setProducts, products } = useContext<ProductContextType>(ProductsContext);
+  const product = products.find(product => product.id === productId);
 
-  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (product) {
+      setTitle(product.title);
+      setDescription(product.description);
+    }
+  }, [product]);
+
+  const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDescription(event.target.value);
   };
 
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
 
@@ -33,9 +42,6 @@ export const UpdateProduct = ({ productId }: { productId: number }) => {
     setOpen(false);
   };
 
-  const { setProducts } = useContext<ProductContextType>(ProductsContext);
-  const { products } = useContext<ProductContextType>(ProductsContext);
-
   const handleUpdate = async (id: number) => {
     try {
       await axios.put(`${URL}/${id}`, {
@@ -43,13 +49,17 @@ export const UpdateProduct = ({ productId }: { productId: number }) => {
         description: description,
       });
 
-      setProducts((prevProducts: Product[]) => {
-        const newProducts = [...prevProducts];
-        newProducts[id - 1].title =
-          title === "" ? newProducts[id - 1].title : title;
-        newProducts[id - 1].description =
-          description === "" ? newProducts[id - 1].description : description;
-        return newProducts;
+      setProducts(prevProducts => {
+        return prevProducts.map(prod => {
+          if (prod.id === id) {
+            return {
+              ...prod,
+              title: title === "" ? prod.title : title,
+              description: description === "" ? prod.description : description,
+            };
+          }
+          return prod;
+        });
       });
       handleClose();
     } catch (error) {
@@ -87,7 +97,7 @@ export const UpdateProduct = ({ productId }: { productId: number }) => {
             label="Title"
             fullWidth
             variant="standard"
-            defaultValue={products[productId - 1]?.title}
+            defaultValue={product?.title}
           />{" "}
           <TextField
             onChange={handleDescriptionChange}
@@ -99,7 +109,7 @@ export const UpdateProduct = ({ productId }: { productId: number }) => {
             label="Description"
             fullWidth
             variant="standard"
-            defaultValue={products[productId - 1]?.description}
+            defaultValue={product?.description}
           />{" "}
         </DialogContent>{" "}
         <DialogActions>

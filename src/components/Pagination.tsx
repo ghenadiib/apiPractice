@@ -9,9 +9,9 @@ import axios from 'axios';
 function PaginationControlled() {
   const { setProducts } = React.useContext<ProductContextType>(ProductsContext);
 
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState<number>(1);
 
-  const [skipCount, setSkipCount] = React.useState(20);
+  const [skipCount, setSkipCount] = React.useState<number>(20);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +26,7 @@ function PaginationControlled() {
     fetchData();
   }, [skipCount, setProducts]);
   
-  const handleChange = (event: Event, value: number) => {
+  const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
 
     setPage(value);
 
