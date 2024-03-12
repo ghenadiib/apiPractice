@@ -25,7 +25,7 @@ export const ProductsContext = createContext<ProductContextType>({
 export const SignedInContext = createContext<IsSignedInType>({
   isSignedIn: false,
   setIsSignedIn: () => {},
-})
+});
 
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -39,54 +39,51 @@ const ProductList = () => {
     }
   }, [isSignedIn]);
 
-
-  console.log(products);
-
   return (
     <ProductsContext.Provider value={{ products, setProducts }}>
-      <SignedInContext.Provider value = {{isSignedIn, setIsSignedIn}}>
-      {isSignedIn ? (
-        <div>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell align="right">Description</TableCell>
-                  <TableCell align="right">Title</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {products.map((product) => (
-                  <TableRow
-                    key={product.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {product.id}
-                    </TableCell>
-                    <TableCell align="right">{product.description}</TableCell>
-                    <TableCell align="right">{product.title}</TableCell>
-                    <TableCell align="right">
-                      <DeleteProduct productId={product.id} />
-                      <EditProduct productId={product.id} />
-                    </TableCell>
+      <SignedInContext.Provider value={{ isSignedIn, setIsSignedIn }}>
+        {isSignedIn ? (
+          <div>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell align="right">Description</TableCell>
+                    <TableCell align="right">Title</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <AddProduct />{" "}
-          <div className="flex justify-center">
-          <PaginationControlled />
+                </TableHead>
+                <TableBody>
+                  {products.map((product) => (
+                    <TableRow
+                      key={product.id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {product.id}
+                      </TableCell>
+                      <TableCell align="right">{product.description}</TableCell>
+                      <TableCell align="right">{product.title}</TableCell>
+                      <TableCell align="right">
+                        <DeleteProduct productId={product.id} />
+                        <EditProduct productId={product.id} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <AddProduct />{" "}
+            <div className="flex justify-center">
+              <PaginationControlled />
+            </div>
           </div>
-        </div>
-      ) : (
-        <>
-        <SignIn />
-        <Alert severity="error">Wrong credentials.</Alert>
-        </>
-      )}
+        ) : (
+          <>
+            <SignIn />
+            <Alert severity="error">Wrong credentials.</Alert>
+          </>
+        )}
       </SignedInContext.Provider>
     </ProductsContext.Provider>
   );

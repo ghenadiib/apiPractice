@@ -16,8 +16,9 @@ export const UpdateProduct = ({ productId }: { productId: number }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const { setProducts, products } = useContext<ProductContextType>(ProductsContext);
-  const product = products.find(product => product.id === productId);
+  const { setProducts, products } =
+    useContext<ProductContextType>(ProductsContext);
+  const product = products.find((product) => product.id === productId);
 
   useEffect(() => {
     if (product) {
@@ -26,7 +27,9 @@ export const UpdateProduct = ({ productId }: { productId: number }) => {
     }
   }, [product]);
 
-  const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setDescription(event.target.value);
   };
 
@@ -49,8 +52,8 @@ export const UpdateProduct = ({ productId }: { productId: number }) => {
         description: description,
       });
 
-      setProducts(prevProducts => {
-        return prevProducts.map(prod => {
+      setProducts((prevProducts) => {
+        return prevProducts.map((prod) => {
           if (prod.id === id) {
             return {
               ...prod,
