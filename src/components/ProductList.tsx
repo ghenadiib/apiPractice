@@ -15,6 +15,7 @@ import { IsSignedInType, ProductContextType, Product } from "../models/product";
 import { Alert } from "@mui/material";
 import PaginationControlled from "./Pagination";
 import Search from "./Search";
+import Filter from "./Filter";
 
 export const URL = "https://dummyjson.com/products";
 
@@ -33,11 +34,17 @@ const ProductList = () => {
   const [search, setSearch] = useState<string>('');
   const [products, setProducts] = useState<Product[]>([]);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(true); // CHANGE TO FALSE TO MAKE THE SIGN IN APPEAR
+  const [categories, setCategories] = useState<string>("")
+
+
 
   useEffect(() => {
     if (isSignedIn) {
       axios.get<{ products: Product[] }>(`${URL}?limit=20`).then((res) => {
         setProducts(res.data.products);
+      });
+      axios.get(`${URL}/categories`).then((res) => {
+        setCategories(res.data);
       });
     }
   }, [isSignedIn]);
@@ -59,6 +66,7 @@ const ProductList = () => {
         {isSignedIn ? (
           <div>
             <div className="flex justify-end">
+              <Filter categories={categories}/>
               <Search search={search} setSearch={setSearch}/>
             </div>
             <TableContainer component={Paper}>
