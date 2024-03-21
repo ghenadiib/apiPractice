@@ -22,10 +22,8 @@ export default function Search({
   });
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value !== "") {
       setSearch(event.target.value);
       window.history.replaceState(null, "", `/search?q=${event.target.value}`);
-    }
   };
 
   return (
