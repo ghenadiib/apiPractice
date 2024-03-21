@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import Table from "@mui/material/Table";
@@ -15,6 +16,7 @@ import { IsSignedInType, ProductContextType, Product } from "../models/product";
 import { Alert } from "@mui/material";
 import PaginationControlled from "./Pagination";
 import Search from "./Search";
+import Filter from "./Filter";
 
 export const URL = "https://dummyjson.com/products";
 
@@ -29,29 +31,45 @@ export const SignedInContext = createContext<IsSignedInType>({
 });
 
 const ProductList = () => {
-
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>("");
   const [products, setProducts] = useState<Product[]>([]);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(true); // CHANGE TO FALSE TO MAKE THE SIGN IN APPEAR
+  const [categories, setCategories] = useState<string>("");
+  const [initialDataLoaded, setInitialDataLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isSignedIn) {
-      axios.get<{ products: Product[] }>(`${URL}?limit=20`).then((res) => {
-        setProducts(res.data.products);
-      });
-    }
+    const fetchData = async () => {
+      try {
+        if (isSignedIn) {
+          const productsResponse = await axios.get<{ products: Product[] }>(
+            `${URL}?limit=20`
+          );
+          setProducts(productsResponse.data.products);
+          const categoriesResponse = await axios.get<string>(
+            `${URL}/categories`
+          );
+          setCategories(categoriesResponse.data);
+          setInitialDataLoaded(true);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, [isSignedIn]);
 
-  useEffect( () => {
-    try {
-         axios.get(`${URL}/search?q=${search}`).then((res)=> {
+  useEffect(() => {
+    if (initialDataLoaded) {
+      try {
+        axios.get(`${URL}/search?q=${search}`).then((res) => {
           setProducts(res.data.products);
-         });
-  } catch (error) {
-    console.error(error);
-  }
-  console.log(search);
-  }, [search]);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, [initialDataLoaded, search]);
 
   return (
     <ProductsContext.Provider value={{ products, setProducts }}>
@@ -59,7 +77,8 @@ const ProductList = () => {
         {isSignedIn ? (
           <div>
             <div className="flex justify-end">
-              <Search search={search} setSearch={setSearch}/>
+              <Filter categories={categories} />
+              <Search search={search} setSearch={setSearch} />
             </div>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
